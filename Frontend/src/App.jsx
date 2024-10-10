@@ -9,6 +9,7 @@ import Package from "./FrontEnd/tab/Package"
 import Catalogue from "./FrontEnd/tab/Catalogue"
 import AboutUs from "./FrontEnd/tab/AboutUs"
 import CouplePackage from "./FrontEnd/tab/Packages/CouplePackage"
+import Availability from "./FrontEnd/others/Availability"
 
 
 const App = () => {
@@ -42,6 +43,11 @@ const App = () => {
              <CouplePackage/>}  /> 
 
     <Route
+        path="/Availability"
+        element={
+             <Availability/>}  /> 
+
+    <Route
         path="/Catalogue"
         element={
              <Catalogue/>}  />   
@@ -64,8 +70,8 @@ const App = () => {
               <StaffPages />}/>
     
      </Routes>
-     {/* <AdminPages />
-     <StaffPages /> */}
+     <AdminPages />
+     <StaffPages /> 
      </>
   );
 }

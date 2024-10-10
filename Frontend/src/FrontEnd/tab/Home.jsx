@@ -9,6 +9,7 @@ const Home = () => {
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh',           // Ensure it fills at least the viewport height
+    backgroundImage: `url(${home})`, // Set background image
     backgroundSize: 'cover',      // Cover the entire container
     backgroundPosition: 'center',  // Center the background image
     backgroundRepeat: 'no-repeat', // Prevent repeating
@@ -17,9 +18,18 @@ const Home = () => {
 
   const topTextStyle = {
     fontSize: '1.5vw',              // Responsive font size based on viewport width
-    color: 'black',
+    color: 'white',
     fontFamily: 'Arial',
     marginBottom: '1vw',          // Responsive margin
+  };
+
+  const bottomTextStyle = {
+    fontSize: '5vw',              // Responsive font size based on viewport width
+    color: 'white',
+    fontFamily: 'Arial',
+    marginBottom: '1vw',
+    justifyContent: 'center',
+    alignItems: 'center',          // Responsive margin
   };
 
 
@@ -102,11 +112,13 @@ const Home = () => {
     <>
       <div style={containerStyle}>
         <div style={topTextStyle}>
-        <h1>This our home page</h1>
-          Create your camping experience with
+        <h1> Create your camping experience with</h1>
+        <div style={bottomTextStyle}>
+        <h2> HASH</h2>
+        </div>
+        
         </div>
          <div>
-            <img src={home} className="flex items-center" />
             <h1 className="font-bold text-white z-20 -mt-[30rem]">HASH</h1>
           </div>
         <button
