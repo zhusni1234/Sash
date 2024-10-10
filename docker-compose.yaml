@@ -1,0 +1,36 @@
+name: mongo
+
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: hanissufia
+      MONGO_INITDB_ROOT_PASSWORD: Hanis123
+    networks:
+      - mognonetwork
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: hanissufia
+      ME_CONFIG_MONGODB_ADMINPASSWORD: Hanis123
+      ME_CONFIG_MONGODB_URL: mongodb://hanissufia:Hanis123@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    networks:
+      - mognonetwork
+
+networks:
+  mognonetwork:
+    driver: bridge
+
+volumes:
+  db_data:

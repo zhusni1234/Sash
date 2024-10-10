@@ -10,6 +10,7 @@ import TransactionsManager from "./StaffViews/scense/transactions";
 import AddTransactions from "./StaffViews/scense/transactions/addTransactions";
 import SuburbManagement from "./StaffViews/scense/suburbs";
 import AddSuburb from "./StaffViews/scense/suburbs/AddSuburb";
+import React from "react";
 
 
 const ManagerViewsLayout = ({ children }) => {
