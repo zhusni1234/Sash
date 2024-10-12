@@ -3,7 +3,6 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:8080/api';
 
 
-
 const AuthService = {
     async login(username, password) {
       try {
@@ -31,6 +30,44 @@ const AuthService = {
         return false;
       }
     },
+
+    async bookings(userId, packageId, checkInDate, checkOutDate, addOns, totalPrice) {
+      try {
+        const bookingData = {
+          userId,
+          checkInDate,
+          checkOutDate,
+          packageId,
+          addOns,
+          totalPrice,
+          paymentConfirmed: false
+        };
+    
+        const response = await axios.post(`${API_BASE_URL}/bookings`, bookingData, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*'
+          }
+        });
+    
+        if (response.status === 200) {
+          localStorage.setItem('bookingId', response.data.id);
+          return true; // Return true if booking is successful
+        } else {
+          return false; // Return false if booking is not successful
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error('Server responded with an error:', error.response.data);
+        } else if (error.request) {
+          console.error('No response received:', error.request);
+        } else {
+          console.error('Error setting up the request:', error.message);
+        }
+        throw error;
+      }
+    },
+    
   
 
     async register(username, email, password, phoneNo, role, fullname) {
