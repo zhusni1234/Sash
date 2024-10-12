@@ -10,6 +10,7 @@ import Catalogue from "./FrontEnd/tab/Catalogue"
 import AboutUs from "./FrontEnd/tab/AboutUs"
 import CouplePackage from "./FrontEnd/tab/Packages/CouplePackage"
 import Availability from "./FrontEnd/others/Availability"
+import AvailableList from "./FrontEnd/others/AvailableList"
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
             <SignInSide />
         }
       />
+
       <Route path="/reservation" 
       element={<Reservation />} />
 
@@ -46,6 +48,11 @@ const App = () => {
         path="/Availability"
         element={
              <Availability/>}  /> 
+
+    <Route
+        path="/AvailableList"
+        element={
+             <AvailableList/>}  /> 
 
     <Route
         path="/Catalogue"

@@ -109,7 +109,9 @@ const Home = () => {
   
 
   return (
+
     <>
+
       <div style={containerStyle}>
         <div style={topTextStyle}>
         <h1> Create your camping experience with</h1>

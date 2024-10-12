@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns';
 import { FaCalendarAlt } from 'react-icons/fa'; // Import calendar icon from react-icons
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import { home } from '../../assets/images';
 
 const CalendarPage = () => {
@@ -19,6 +20,8 @@ const CalendarPage = () => {
   const [endDate, setEndDate] = useState(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false); // Track if calendar is open
 
+  const navigate = useNavigate(); // Use React Router's navigate function
+
   // Handle date changes (start and end date)
   const handleDateChange = (dates) => {
     const [start, end] = dates;
@@ -33,7 +36,14 @@ const CalendarPage = () => {
 
   // Check availability function
   const checkAvailability = () => {
-    alert(`Checking availability for ${startDate ? startDate.toDateString() : 'undefined'} to ${endDate ? endDate.toDateString() : 'undefined'}`);
+    if (startDate && endDate) {
+      // Navigate to the room availability page and pass dates as state
+      navigate('/AvailableList', {
+        state: { checkIn: startDate, checkOut: endDate },
+      });
+    } else {
+      alert('Please select both check-in and check-out dates');
+    }
   };
 
   return (
