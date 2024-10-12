@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8082/api';
+const API_BASE_URL = 'http://localhost:8080/api';
 
 
 const AuthService = {
-    async login(email, password) {
+    async login(username, password) {
       try {
-        const response = await axios.post(`${API_BASE_URL}/app_auth/`, {
-            email,
+        const response = await axios.post(`${API_BASE_URL}/users/login`, {
+            username,
             password,
             
         },
@@ -22,7 +22,7 @@ const AuthService = {
           // Store the JWT token in localStorage
           localStorage.setItem('jwtToken', response.data.token);
           localStorage.setItem('userName', response.data.username);
-          localStorage.setItem('userType', response.data.user_type);
+          localStorage.setItem('role', response.data.role);
           return true;
         }
       } catch (error) {
@@ -69,6 +69,44 @@ const AuthService = {
     },
     
   
+
+    async register(username, email, password, phoneNo, role, fullname) {
+      //  const username = await localStorage.getItem('username');
+    
+        try {
+          const formData = new FormData();
+          formData.append('username', username);
+          // formData.append('email', email);
+          formData.append('password', password);
+          formData.append('fullname', fullname);
+          formData.append('phoneNo', phoneNo);
+          formData.append('role', role);
+    
+          const response = await axios.post(`${API_BASE_URL}/users/register`, 
+            formData,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                "Accept": "*/*"
+              },
+            }
+          );
+    
+          if (response.status === 200) {
+            return response.data;
+          }
+        } catch (error) {
+          if (error.response) {
+            console.error('Server responded with an error:', error.response.data);
+          } else if (error.request) {
+            console.error('No response received:', error.request);
+          } else {
+            console.error('Error setting up the request:', error.message);
+          }
+          throw error;
+        }
+      },
+
     async addTeamSave(email, password, firstName, lastName, phone, address, role, userName) {
       const token = await localStorage.getItem('jwtToken');
       const username = await localStorage.getItem('userName');
