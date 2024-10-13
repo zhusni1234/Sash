@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { Button, TextField, Grid, Box, Typography, Paper, Card, CardContent, CardActions } from '@mui/material';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import AuthService from '../../Auth/AuthService';
+import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import AuthService from '../../Auth/AuthService'; // Adjust path as needed
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -23,34 +29,33 @@ function Copyright(props) {
   );
 }
 
-export default function SignInSide() {
+const defaultTheme = createTheme();
+
+export default function SignUpSide() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [setIsLoggedInAdmin] = useState(false);
-
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [name, setName] = useState("");
   const navigate = useNavigate();
+
+  // Automatically set role to 'Customer'
+  const role = "Customer";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
     try {
-      const success = await AuthService.login(username, password);
-      const role = await localStorage.getItem('role');
-
-      if (success && role === "Admin") {
-        // setIsLoggedInAdmin(true);
-        navigate("/dashboard-admin");
-      } 
-      // else if (success && role === "Staff") {
-        // navigate("/dashboard-staff");} 
-      else if (success && role === "Customer") {
-        navigate("/Home");
+      const success = await AuthService.register(username, password, phoneNumber, role, name);
+      
+      if (success) {
+        alert("Registration successful! You can now sign in.");
+        navigate("/signin");
       } else {
-        alert("Login failed. Please check your credentials.");
+        alert("Registration failed. Please try again.");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred while logging in.");
+      console.error("Registration error:", error);
+      alert("Username already taken. Please choose a different username.");
     }
   };
 
@@ -83,7 +88,7 @@ export default function SignInSide() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100%', // Ensure the Grid item takes full height
+          height: '100%',
         }}
       >
         <Card sx={{ minWidth: 275, padding: 2 }}>
@@ -92,10 +97,21 @@ export default function SignInSide() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5" margin="30px" textAlign="center">
-              Sign in
+              Sign Up
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                margin="normal"
+                required
+                fullWidth
+                id="name"
+                label="Full Name"
+                name="name"
+              />
+              <TextField
+                value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 margin="normal"
                 required
@@ -104,9 +120,9 @@ export default function SignInSide() {
                 label="User Name"
                 name="username"
                 autoComplete="username"
-                autoFocus
               />
               <TextField
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 margin="normal"
                 required
@@ -117,9 +133,16 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+              <TextField
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                margin="normal"
+                required
+                fullWidth
+                id="phoneNumber"
+                label="Phone Number"
+                name="phoneNumber"
+                autoComplete="tel"
               />
               <CardActions>
                 <Button
@@ -128,18 +151,13 @@ export default function SignInSide() {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign In
+                  Sign Up
                 </Button>
               </CardActions>
               <Grid container>
-                <Grid item xs>
-                  <Link component={RouterLink} to="/resetpassword" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
-                  <Link component={RouterLink} to="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link component={RouterLink} to="/signin" variant="body2">
+                    {"Already have an account? Sign In"}
                   </Link>
                 </Grid>
               </Grid>

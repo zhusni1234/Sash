@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import AdminPages from "./AdminPages";
 import SignInSide from "./FrontEnd/login/SignInSide";
+import SignUpSide from "./FrontEnd/login/SignUpSide";
 import StaffPages from "./StaffPages";
 import Reservation from "./FrontEnd/others/Reservation";
 import Home from "./FrontEnd/tab/Home"
@@ -20,14 +21,20 @@ const App = () => {
     
     <Routes>
     <Route
-        path="/SignIn"
-        element={
-            <SignInSide />
-        }
-      />
+        path="/signin"
+        element={<SignInSide/>}/>
 
-      <Route path="/reservation" 
-      element={<Reservation />} />
+    <Route
+        path="/signup" 
+        element={<SignUpSide/>}/>
+
+    {/* <Route
+        path="/resetpassword"
+        element={<ResetSide/>}/> */}
+
+    <Route 
+        path="/reservation" 
+        element={<Reservation />} />
 
     <Route
         path="/Home"
@@ -77,8 +84,8 @@ const App = () => {
               <StaffPages />}/>
     
      </Routes>
-     <AdminPages />
-     <StaffPages /> 
+     {/* <AdminPages /> */}
+     {/* <StaffPages />  */}
      </>
   );
 }

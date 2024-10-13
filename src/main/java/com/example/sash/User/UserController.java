@@ -1,14 +1,19 @@
 package com.example.sash.User;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
-
-import jakarta.servlet.http.HttpSession; //?
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -29,18 +34,14 @@ public class UserController {
             .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/register")
-    public User addUser(@RequestBody User user) {
-        return userService.addUser(user);
+    @PostMapping
+    public User register(@RequestBody User user) {
+        return userService.register(user);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User userDetails) {
-        User updatedUser = userService.updateUser(id, userDetails);
-        if (updatedUser != null) {
-            return ResponseEntity.ok(updatedUser);
-        }
-        return ResponseEntity.notFound().build();
+    @PutMapping("/{username}")
+    public User updateUser(@PathVariable String username, @RequestBody User userDetails) {
+        return userService.updateUserByUsername(username, userDetails);
     }
 
     @DeleteMapping("/{id}")
@@ -60,12 +61,6 @@ public class UserController {
             // If credentials are wrong, return 401 Unauthorized
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
         }
-    }
-	
-	@GetMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession session) {
-        session.invalidate();  // Clear session data
-        return ResponseEntity.ok("Logout successful");
     }
 
     // @PostMapping("/register")
