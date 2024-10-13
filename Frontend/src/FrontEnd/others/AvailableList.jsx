@@ -23,7 +23,8 @@ const RoomAvailabilityPage = () => {
 
   // Handle room booking (navigate to RoomDetailsPage with selected room data)
   const handleBookNow = (room) => {
-    navigate('/room-details', {
+//    navigate('/room-details', {
+    navigate('/Reservation', {
       state: { room, checkIn, checkOut },
     });
   };
